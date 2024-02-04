@@ -29,3 +29,8 @@ Technologies used in the project:
 *   Typescript
 *   MongoDB
 *   React
+
+  <h2>How it looks</h2>
+  
+  ![Style=Section-4](https://github.com/Peterr181/eatio-eccomerce-shop/assets/102172769/370af8a9-b272-4738-a0c4-045b6a6879a4)
+
