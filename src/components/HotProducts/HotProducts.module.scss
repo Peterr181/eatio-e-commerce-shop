@@ -1,0 +1,78 @@
+.hotProducts {
+  margin-top: 150px;
+
+  h2 {
+    font-size: 35px;
+    font-weight: 400;
+  }
+  &__header {
+    &__shop {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      height: 2px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    &::before {
+      left: 0;
+      width: 200px;
+      background-color: #4bce7c;
+    }
+
+    &::after {
+      right: 0;
+      left: 200px;
+      width: calc(100% - 200px);
+      background-color: #e7e8f3;
+    }
+  }
+
+  &__categories {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    p {
+      color: #585c7b;
+      cursor: pointer;
+    }
+
+    &__active {
+      color: #f4868a !important;
+      border: 1px solid #f4868a;
+      padding: 5px 15px;
+      border-radius: 11px;
+    }
+  }
+  &__items {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+}
+
+.arrowIcon {
+  background-color: #d3fcd2;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}

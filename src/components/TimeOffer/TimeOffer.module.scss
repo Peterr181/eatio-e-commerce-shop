@@ -1,0 +1,74 @@
+.timeOffer {
+  position: relative;
+  display: flex;
+  margin-top: 150px;
+}
+
+.timeOfferImage {
+  position: relative;
+  flex: 1;
+}
+
+.timeOfferImage img {
+  width: 100%;
+  height: auto;
+}
+
+.timeOfferContent {
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+  width: 400px;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &__desc {
+    color: #fff;
+  }
+
+  button {
+    align-self: flex-start;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 21px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #fff;
+    margin-top: 10px;
+    font-weight: 400;
+  }
+  h2 {
+    font-size: 60px;
+    font-weight: 500;
+    color: #fff;
+
+    span {
+      color: #ac223a;
+    }
+  }
+}
+
+.timer {
+  display: flex;
+  gap: 15px;
+  &__item {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    &__number {
+      padding: 20px;
+      border: 1px solid #fff;
+    }
+  }
+}
+
+.timer div {
+  text-align: center;
+}

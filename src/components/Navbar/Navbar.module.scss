@@ -1,0 +1,45 @@
+@import "../../app/styles/variables.scss";
+.buttonRegister {
+  background-color: $mainBlue;
+  border: none;
+  padding: 10px 35px;
+  color: #fff;
+}
+
+.buttonLogin {
+  border: 1px solid $mainBlue;
+  color: $mainBlack;
+  padding: 10px 35px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  align-items: center;
+
+  &__elements {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    cursor: pointer;
+    color: $mainBlack;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 20px;
+    button {
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 11px;
+    }
+  }
+
+  &__logo {
+    color: $logoColor;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}

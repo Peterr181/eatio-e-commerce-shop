@@ -1,0 +1,15 @@
+.shopNowCards {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 150px;
+}
+
+@media screen and (max-width: 768px) {
+  .shopNowCards {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+}

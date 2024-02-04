@@ -1,0 +1,42 @@
+.testimonials {
+  margin-top: 150px;
+
+  h2 {
+    font-size: 35px;
+    font-weight: 400;
+  }
+
+  &__text {
+    color: #a0a6af;
+    height: 50px;
+  }
+  &__person {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    &__role {
+      color: #a0a6af;
+    }
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+  }
+
+  &__item {
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    h3 {
+      font-weight: 500;
+    }
+  }
+}
