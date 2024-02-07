@@ -45,3 +45,42 @@
     }
   }
 }
+
+.videoWrapper {
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.videoWrapper video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 30px;
+}
+
+.startButton {
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 35px;
+  z-index: 1000;
+}
+
+.startButtonContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  text-align: center;
+
+  p {
+    color: #fff;
+    font-size: 45px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+}
