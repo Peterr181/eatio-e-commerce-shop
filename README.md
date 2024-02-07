@@ -17,6 +17,9 @@ Here're some of the project's best features:
 
 And more
 
+<h2>API</h2>
+In this project i'm using https://www.themealdb.com/ API because it's great api with many products and well fitting for my e-commerce website because of many meals and different category products.
+
   
   
 <h2>💻 Built with</h2>
