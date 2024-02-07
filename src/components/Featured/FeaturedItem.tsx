@@ -8,7 +8,7 @@ interface FeaturedItemProps {
   imageUrl: string;
   productName: string;
   newPrice: number;
-  oldPrice: number;
+  oldPrice?: number;
 }
 
 const FeaturedItem = ({
@@ -24,7 +24,9 @@ const FeaturedItem = ({
 
       <div className={styles.featured__items__price}>
         <span>${newPrice}</span>
-        <span className={styles.featured__items__discount}>${oldPrice}</span>
+        {oldPrice && (
+          <span className={styles.featured__items__discount}>${oldPrice}</span>
+        )}
       </div>
       <Rating initialValue={5} maxRating={5} />
       <button>

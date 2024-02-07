@@ -12,32 +12,24 @@ function Featured() {
     <MaxWidthWrapper>
       <section className={styles.featured}>
         <div className={styles.featured__header}>
-          <h2>Featured Product</h2>
+          <h2>Popular meals</h2>
         </div>
         <div className={styles.featured__items}>
           <FeaturedItem
             imageUrl={strawberries.src}
             productName="Strawberries"
             newPrice={200}
-            oldPrice={300}
           />
+          <FeaturedItem imageUrl={cake.src} productName="Cake" newPrice={200} />
           <FeaturedItem
-            imageUrl={cake.src}
-            productName="Cake"
+            imageUrl={vegets.src}
+            productName="Vegetables"
             newPrice={200}
-            oldPrice={300}
           />
           <FeaturedItem
             imageUrl={vegets.src}
             productName="Vegetables"
             newPrice={200}
-            oldPrice={300}
-          />
-          <FeaturedItem
-            imageUrl={vegets.src}
-            productName="Vegetables"
-            newPrice={200}
-            oldPrice={300}
           />
         </div>
       </section>

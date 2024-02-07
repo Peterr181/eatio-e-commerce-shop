@@ -1,18 +1,27 @@
 "use client";
-
 import React, { useState } from "react";
 import styles from "./HotProducts.module.scss";
 import FeaturedItem from "../Featured/FeaturedItem";
-import strawberries from "../../assets/straw.png";
-import cake from "../../assets/cake.png";
-import vegets from "../../assets/veget.png";
+import useFetch from "@/hooks/useFetch";
+
+interface Meal {
+  idMeal: string;
+  strMealThumb: string;
+  strMeal: string;
+}
 
 const HotProducts = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("Seafood");
 
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
   };
+
+  const { data, loading, error } = useFetch<{ meals: Meal[] }>(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`
+  );
+
+  console.log(data);
 
   return (
     <section className={styles.hotProducts}>
@@ -42,36 +51,6 @@ const HotProducts = () => {
       <div className={styles.hotProducts__categories}>
         <p
           className={
-            activeCategory === "All"
-              ? styles.hotProducts__categories__active
-              : ""
-          }
-          onClick={() => handleCategoryClick("All")}
-        >
-          All
-        </p>
-        <p
-          className={
-            activeCategory === "Fruits"
-              ? styles.hotProducts__categories__active
-              : ""
-          }
-          onClick={() => handleCategoryClick("Fruits")}
-        >
-          Fruits
-        </p>
-        <p
-          className={
-            activeCategory === "Meat"
-              ? styles.hotProducts__categories__active
-              : ""
-          }
-          onClick={() => handleCategoryClick("Meat")}
-        >
-          Meat
-        </p>
-        <p
-          className={
             activeCategory === "Seafood"
               ? styles.hotProducts__categories__active
               : ""
@@ -82,41 +61,55 @@ const HotProducts = () => {
         </p>
         <p
           className={
-            activeCategory === "Dried"
+            activeCategory === "Chicken"
               ? styles.hotProducts__categories__active
               : ""
           }
-          onClick={() => handleCategoryClick("Dried")}
+          onClick={() => handleCategoryClick("Chicken")}
         >
-          Dried
+          Chicken
+        </p>
+        <p
+          className={
+            activeCategory === "Vegetarian"
+              ? styles.hotProducts__categories__active
+              : ""
+          }
+          onClick={() => handleCategoryClick("Vegetarian")}
+        >
+          Vegetarian
+        </p>
+        <p
+          className={
+            activeCategory === "Pasta"
+              ? styles.hotProducts__categories__active
+              : ""
+          }
+          onClick={() => handleCategoryClick("Pasta")}
+        >
+          Pasta
         </p>
       </div>
-      <div className={styles.hotProducts__items}>
-        <FeaturedItem
-          imageUrl={strawberries.src}
-          productName="Strawberries"
-          newPrice={200}
-          oldPrice={300}
-        />
-        <FeaturedItem
-          imageUrl={cake.src}
-          productName="Cake"
-          newPrice={200}
-          oldPrice={300}
-        />
-        <FeaturedItem
-          imageUrl={vegets.src}
-          productName="Vegetables"
-          newPrice={200}
-          oldPrice={300}
-        />
-        <FeaturedItem
-          imageUrl={vegets.src}
-          productName="Vegetables"
-          newPrice={200}
-          oldPrice={300}
-        />
-      </div>
+      {loading ? (
+        <div className={styles.loader}>Loading...</div>
+      ) : (
+        <div className={styles.hotProducts__items}>
+          {data &&
+            data.meals &&
+            data.meals.slice(0, 4).map((product) => {
+              const randomNumber = Math.floor(Math.random() * 501);
+              return (
+                <FeaturedItem
+                  key={product.idMeal}
+                  imageUrl={product.strMealThumb}
+                  productName={product.strMeal}
+                  newPrice={randomNumber}
+                  oldPrice={randomNumber + 100}
+                />
+              );
+            })}
+        </div>
+      )}
     </section>
   );
 };
