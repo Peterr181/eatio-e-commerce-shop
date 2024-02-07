@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Category from "./Category";
 import styles from "./Categories.module.scss";
 import useFetch from "@/hooks/useFetch";
@@ -31,6 +31,11 @@ const Categories = () => {
       });
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(handleMoreClick, 3000); // Auto-slide every 3 seconds
+    return () => clearInterval(interval);
+  }, []); // Run only once on component mount
 
   return (
     <section className={styles.categories}>

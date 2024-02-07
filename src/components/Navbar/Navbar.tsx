@@ -1,8 +1,12 @@
+"use client";
 import React from "react";
 import styles from "./Navbar.module.scss";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
+import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
+  const { data: session }: any = useSession();
   return (
     <MaxWidthWrapper>
       <nav className={styles.navbar}>
@@ -19,8 +23,20 @@ const Navbar = () => {
           </ul>
         </div>
         <div className={styles.navbar__buttons}>
-          <button className={styles.buttonLogin}>Login</button>
-          <button className={styles.buttonRegister}>Sign Up</button>
+          {!session ? (
+            <>
+              <Link href="/login">
+                <button className={styles.buttonLogin}>Login</button>
+              </Link>
+              <Link href="/register">
+                <button className={styles.buttonRegister}>Sign Up</button>
+              </Link>
+            </>
+          ) : (
+            <button className={styles.buttonRegister} onClick={() => signOut()}>
+              Logout
+            </button>
+          )}
         </div>
       </nav>
     </MaxWidthWrapper>

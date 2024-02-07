@@ -92,3 +92,7 @@
 .slideAnimation {
   transition: transform 0.5s ease;
 }
+
+.categories__items {
+  transition: transform 0.5s ease; /* Add transition for smooth animation */
+}
