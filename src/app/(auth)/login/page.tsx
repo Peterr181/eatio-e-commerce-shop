@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import styles from "./Login.module.scss";
+import styles from "./login.module.scss";
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -16,6 +16,7 @@ const Login: React.FC = () => {
       router.replace("/");
     }
   }, [sessionStatus, router]);
+  console.log("chuj");
 
   const isValidEmail = (email: string) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;

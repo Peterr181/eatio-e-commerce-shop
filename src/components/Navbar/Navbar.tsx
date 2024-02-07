@@ -16,10 +16,9 @@ const Navbar = () => {
         <div>
           <ul className={styles.navbar__elements}>
             <li>Home</li>
-            <li>Shop</li>
-            <li>Blog</li>
-            <li>Page</li>
-            <li>Vendor</li>
+            <li>Products</li>
+            <li>Profile</li>
+            <li>FAQ</li>
           </ul>
         </div>
         <div className={styles.navbar__buttons}>

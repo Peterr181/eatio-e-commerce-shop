@@ -23,19 +23,19 @@ const Categories = () => {
   const handleMoreClick = () => {
     if (data) {
       setCurrentCategoryIndex((prevIndex) => {
-        if (prevIndex === data.categories.length - 4) {
-          return 0; // Reset to the beginning if at the end
+        if (prevIndex === data.categories.length - 8) {
+          return 0;
         } else {
-          return prevIndex + 1; // Increment by 1 otherwise
+          return prevIndex + 1;
         }
       });
     }
   };
 
   useEffect(() => {
-    const interval = setInterval(handleMoreClick, 3000); // Auto-slide every 3 seconds
+    const interval = setInterval(handleMoreClick, 3000);
     return () => clearInterval(interval);
-  }, []); // Run only once on component mount
+  }, []);
 
   return (
     <section className={styles.categories}>
@@ -68,7 +68,7 @@ const Categories = () => {
       <div className={styles.categories__items}>
         {data &&
           data.categories
-            .slice(currentCategoryIndex, currentCategoryIndex + 4)
+            .slice(currentCategoryIndex, currentCategoryIndex + 8)
             .map((category) => (
               <Category
                 key={category.idCategory}
