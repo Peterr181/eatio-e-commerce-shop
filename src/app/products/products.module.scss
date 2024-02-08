@@ -36,6 +36,8 @@
 
   &__countries {
     list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 
   &__section {
@@ -47,6 +49,7 @@
     }
     &__countries {
       margin-top: 10px;
+
       ul {
         display: flex;
         flex-direction: column;
@@ -75,7 +78,8 @@
   &__productsItems {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px;
+    grid-auto-rows: 1fr; /* Each row will have equal height */
+    gap: 10px;
     margin-left: 50px;
     margin-top: 30px;
   }
@@ -109,8 +113,4 @@
 
 .checkbox:checked {
   background-color: orange;
-}
-
-.featuredItem {
-  max-width: 100%;
 }
