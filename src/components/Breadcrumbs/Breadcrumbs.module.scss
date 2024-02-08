@@ -1,0 +1,50 @@
+.breadcrumbsContainer {
+  position: relative;
+}
+
+.imageContainer {
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.imageContainer img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.breadcrumbs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  list-style: none;
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.breadcrumbItem {
+  display: inline;
+  list-style: none;
+  text-decoration: none;
+  color: #ff6700;
+  cursor: pointer;
+}
+
+.breadcrumbItem.active {
+  font-weight: 700;
+}
+
+.breadcrumbItemLink {
+  text-decoration: none;
+  color: #808080;
+  cursor: pointer;
+}
+
+.wholeContainer {
+  position: relative;
+}
