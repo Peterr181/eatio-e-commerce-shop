@@ -1,0 +1,106 @@
+@import "../../app/styles/variables.scss";
+
+.products {
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: $mainBlue;
+      border: none;
+      padding: 10px 35px;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 21px;
+      font-weight: 500;
+      color: #fff;
+      font-size: 16px;
+    }
+  }
+
+  &__categoryList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__header {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  &__countries {
+    list-style: none;
+  }
+
+  &__section {
+    &__price {
+      margin-top: 10px;
+    }
+    &__ratings {
+      margin-top: 10px;
+    }
+    &__countries {
+      margin-top: 10px;
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      li {
+        background-color: #ebecfe;
+        padding: 10px;
+        border-radius: 21px;
+      }
+    }
+    &__categories {
+      margin-top: 10px;
+    }
+  }
+
+  &__mainFilters {
+    margin-top: 30px;
+  }
+
+  &__mainWrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__productsItems {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 30px;
+    margin-top: 30px;
+  }
+}
+
+.checkBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checkBoxInput {
+}
+
+.checkbox {
+  width: 1.3em;
+  height: 1.3em;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid orange;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  background-color: orange;
+}
