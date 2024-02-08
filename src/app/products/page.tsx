@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./products.module.scss";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper/MaxWidthWrapper";
@@ -12,10 +12,28 @@ interface Meal {
   strMeal: string;
 }
 
+interface Category {
+  strCategory: string;
+}
+
+interface CategoryResponse {
+  categories: Category[];
+}
+
 const Products = () => {
   const { data, loading, error } = useFetch<{ meals: Meal[] }>(
     `https://www.themealdb.com/api/json/v1/1/search.php?s=`
   );
+
+  const {
+    data: dataCategories,
+    loading: loadingCategories,
+    error: errorCategories,
+  } = useFetch<CategoryResponse>(
+    "https://www.themealdb.com/api/json/v1/1/categories.php"
+  );
+
+  console.log(dataCategories);
 
   const homeIcon = (
     <svg
@@ -35,20 +53,22 @@ const Products = () => {
     </svg>
   );
 
-  const paths = [
-    { icon: homeIcon, url: "/" }, // Change here
-    { name: "Products" },
-  ];
+  const paths = [{ icon: homeIcon, url: "/" }, { name: "Products" }];
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [filteredMealsByCategory, setFilteredMealsByCategory] = useState<
+    Meal[]
+  >([]);
+  const [filteredMealsByName, setFilteredMealsByName] = useState<Meal[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [enteredName, setEnteredName] = useState("");
+
+  const handleInput = (e: any) => {
+    setEnteredName(e.target.value);
+  };
 
   const handleCategoryChange = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+    setSelectedCategory(category);
   };
 
   const handleCountryChange = (country: string) => {
@@ -59,46 +79,66 @@ const Products = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchFilteredMealsByCategory = async () => {
+      if (selectedCategory) {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`
+        );
+        const data = await response.json();
+        if (data.meals) {
+          setFilteredMealsByCategory(data.meals);
+        }
+      } else {
+        setFilteredMealsByCategory([]);
+      }
+    };
+
+    fetchFilteredMealsByCategory();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const fetchEnteredNameMeals = async () => {
+      if (enteredName) {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/search.php?s=${enteredName}`
+        );
+        const data = await response.json();
+        if (data.meals) {
+          setFilteredMealsByName(data.meals);
+        } else {
+          setFilteredMealsByName([]);
+        }
+      } else {
+        setFilteredMealsByName([]);
+      }
+    };
+    fetchEnteredNameMeals();
+  }, [enteredName]);
+
+  console.log(enteredName);
+
   return (
     <>
       <Breadcrumbs paths={paths} />
       <MaxWidthWrapper>
         <div className={styles.products}>
           <div className={styles.products__filter}>
-            <button>
-              Filter{" "}
-              <svg
-                width="22"
-                height="19"
-                viewBox="0 0 22 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18 5H9"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M13 14H4"
-                  stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <circle cx="5" cy="5" r="4" stroke="white" stroke-width="1.5" />
-                <circle
-                  cx="17"
-                  cy="14"
-                  r="4"
-                  stroke="white"
-                  stroke-width="1.5"
-                />
-              </svg>
-            </button>
-            <p>52 Results Found</p>
+            <input
+              type="text"
+              className={styles.products__searchInput}
+              placeholder="Enter meal name"
+              value={enteredName}
+              onChange={handleInput}
+            />
+
+            <p>
+              {selectedCategory
+                ? `${filteredMealsByCategory.length} Results Found`
+                : enteredName
+                ? `${filteredMealsByName.length} Results Found`
+                : `${data?.meals?.length} Results Found`}
+            </p>
           </div>
           <div className={styles.products__mainWrapper}>
             <div className={styles.products__mainFilters}>
@@ -106,102 +146,38 @@ const Products = () => {
                 <h3 className={styles.products__header}>All categories</h3>
                 <div>
                   <ul className={styles.products__categoryList}>
-                    <li>
+                    {/* Render custom "All" category */}
+                    <li key="All">
                       <label className={styles.checkBox}>
                         <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
+                          type="radio"
+                          name="category"
+                          value=""
+                          checked={selectedCategory === ""}
+                          onChange={() => handleCategoryChange("")}
                           className={styles.checkbox}
                         />
-                        Fresh Fruit
+                        Random
                       </label>
                     </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
-                    <li>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          value="Fresh Fruit"
-                          checked={selectedCategories.includes("Fresh Fruit")}
-                          onChange={() => handleCategoryChange("Fresh Fruit")}
-                          className={styles.checkbox}
-                        />
-                        Fresh Fruit
-                      </label>
-                    </li>
+                    {/* Render fetched categories */}
+                    {dataCategories?.categories.map((category) => (
+                      <li key={category.strCategory}>
+                        <label className={styles.checkBox}>
+                          <input
+                            type="radio"
+                            name="category"
+                            value={category.strCategory}
+                            checked={selectedCategory === category.strCategory}
+                            onChange={() =>
+                              handleCategoryChange(category.strCategory)
+                            }
+                            className={styles.checkbox}
+                          />
+                          {category.strCategory}
+                        </label>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -242,19 +218,38 @@ const Products = () => {
               </div>
             </div>
             <div className={styles.products__productsItems}>
-              {data &&
-                data.meals &&
-                data.meals.map((product) => {
-                  const randomNumber = Math.floor(Math.random() * 501);
-                  return (
-                    <FeaturedItem
-                      key={product.idMeal}
-                      imageUrl={product.strMealThumb}
-                      productName={product.strMeal}
-                      newPrice={randomNumber}
-                    />
-                  );
-                })}
+              {selectedCategory && filteredMealsByCategory.length > 0 ? (
+                filteredMealsByCategory.map((meal) => (
+                  <FeaturedItem
+                    key={meal.idMeal}
+                    imageUrl={meal.strMealThumb}
+                    productName={meal.strMeal}
+                    newPrice={Math.floor(Math.random() * 501)}
+                  />
+                ))
+              ) : (
+                <>
+                  {enteredName && filteredMealsByName.length > 0
+                    ? filteredMealsByName.map((meal) => (
+                        <FeaturedItem
+                          key={meal.idMeal}
+                          imageUrl={meal.strMealThumb}
+                          productName={meal.strMeal}
+                          newPrice={Math.floor(Math.random() * 501)}
+                        />
+                      ))
+                    : data &&
+                      data.meals &&
+                      data.meals.map((meal) => (
+                        <FeaturedItem
+                          key={meal.idMeal}
+                          imageUrl={meal.strMealThumb}
+                          productName={meal.strMeal}
+                          newPrice={Math.floor(Math.random() * 501)}
+                        />
+                      ))}
+                </>
+              )}
             </div>
           </div>
         </div>
