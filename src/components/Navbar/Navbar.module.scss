@@ -43,3 +43,24 @@
     cursor: pointer;
   }
 }
+
+.registeredButtons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.cartContainer {
+  position: relative;
+}
+
+.cartQuantity {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: $mainBlue;
+  color: #fff;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+}
