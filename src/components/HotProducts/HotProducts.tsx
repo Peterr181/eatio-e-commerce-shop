@@ -100,6 +100,7 @@ const HotProducts = () => {
               const randomNumber = Math.floor(Math.random() * 501);
               return (
                 <FeaturedItem
+                  id={product.idMeal}
                   key={product.idMeal}
                   imageUrl={product.strMealThumb}
                   productName={product.strMeal}

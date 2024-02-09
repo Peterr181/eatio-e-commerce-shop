@@ -3,8 +3,12 @@ import React from "react";
 import Image from "next/image";
 import Rating from "../Rating/Rating";
 import styles from "./Featured.module.scss";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/redux/CartSlice";
+import { useSelector } from "react-redux";
 
 interface FeaturedItemProps {
+  id: string;
   imageUrl: string;
   productName: string;
   newPrice: number;
@@ -12,11 +16,24 @@ interface FeaturedItemProps {
 }
 
 const FeaturedItem = ({
+  id,
   imageUrl,
   productName,
   newPrice,
   oldPrice,
 }: FeaturedItemProps) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    const itemToAdd = {
+      id: id,
+      imageUrl: imageUrl,
+      productName: productName,
+      price: newPrice,
+    };
+    dispatch(addToCart(itemToAdd));
+  };
+
   return (
     <div className={styles.featured__item}>
       <Image src={imageUrl} alt="featured shop item" width={230} height={230} />
@@ -29,7 +46,7 @@ const FeaturedItem = ({
         )}
       </div>
       <Rating initialValue={5} maxRating={5} />
-      <button>
+      <button onClick={handleAddToCart}>
         Add to cart{" "}
         <svg
           width="25"

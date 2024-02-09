@@ -4,19 +4,28 @@ import styles from "./Navbar.module.scss";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const item = useSelector((state: any) => state.cart);
   const { data: session }: any = useSession();
+  console.log(item);
   return (
     <MaxWidthWrapper>
       <nav className={styles.navbar}>
-        <div>
-          <p className={styles.navbar__logo}>Vege Shop</p>
-        </div>
+        <Link href="/">
+          <div>
+            <p className={styles.navbar__logo}>Vege Shop</p>
+          </div>
+        </Link>
         <div>
           <ul className={styles.navbar__elements}>
-            <li>Home</li>
-            <li>Products</li>
+            <Link href="/">
+              <li>Home</li>
+            </Link>
+            <Link href="/products">
+              <li>Products</li>
+            </Link>
             <li>Profile</li>
             <li>FAQ</li>
           </ul>
@@ -51,7 +60,7 @@ const Navbar = () => {
                     />
                   </svg>
                 </Link>
-                <span className={styles.cartQuantity}>2</span>
+                <span className={styles.cartQuantity}>{item.items.length}</span>
               </div>
               <button
                 className={styles.buttonRegister}

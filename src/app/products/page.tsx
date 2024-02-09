@@ -260,6 +260,7 @@ const Products = () => {
                   )
                   .map((meal) => (
                     <FeaturedItem
+                      id={meal.idMeal}
                       key={meal.idMeal}
                       imageUrl={meal.strMealThumb}
                       productName={meal.strMeal}
@@ -269,6 +270,7 @@ const Products = () => {
               ) : selectedCategory && filteredMealsByCategory.length > 0 ? (
                 filteredMealsByCategory.map((meal) => (
                   <FeaturedItem
+                    id={meal.idMeal}
                     key={meal.idMeal}
                     imageUrl={meal.strMealThumb}
                     productName={meal.strMeal}
@@ -286,6 +288,7 @@ const Products = () => {
                         )
                         .map((meal) => (
                           <FeaturedItem
+                            id={meal.idMeal}
                             key={meal.idMeal}
                             imageUrl={meal.strMealThumb}
                             productName={meal.strMeal}
@@ -302,6 +305,7 @@ const Products = () => {
                         )
                         .map((meal) => (
                           <FeaturedItem
+                            id={meal.idMeal}
                             key={meal.idMeal}
                             imageUrl={meal.strMealThumb}
                             productName={meal.strMeal}

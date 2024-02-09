@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import { getServerSession } from "next-auth";
 import SessionProvider from "../lib/SessionProvider";
+import ReduxProvider from ".././redux/Provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,14 +23,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
           <div className="wrapper">
-            <Navbar />
-            <div className="content">{children}</div>
-            <Footer />
+            <ReduxProvider>
+              <Navbar />
+              <div className="content">{children}</div>
+              <Footer />
+            </ReduxProvider>
           </div>
         </SessionProvider>
       </body>
