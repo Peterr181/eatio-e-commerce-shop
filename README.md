@@ -37,3 +37,8 @@ Technologies used in the project:
   
   ![Style=Section-4](https://github.com/Peterr181/eatio-eccomerce-shop/assets/102172769/370af8a9-b272-4738-a0c4-045b6a6879a4)
 
+  <h2>Products section</h2>
+
+  ![obraz](https://github.com/Peterr181/eatio-e-commerce-shop/assets/102172769/6f421c42-2c78-46e2-a9f4-014b089c8b0a)
+
+
