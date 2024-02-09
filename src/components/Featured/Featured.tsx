@@ -16,17 +16,25 @@ function Featured() {
         </div>
         <div className={styles.featured__items}>
           <FeaturedItem
+            id="1"
             imageUrl={strawberries.src}
             productName="Strawberries"
             newPrice={200}
           />
-          <FeaturedItem imageUrl={cake.src} productName="Cake" newPrice={200} />
           <FeaturedItem
+            id="1"
+            imageUrl={cake.src}
+            productName="Cake"
+            newPrice={200}
+          />
+          <FeaturedItem
+            id="1"
             imageUrl={vegets.src}
             productName="Vegetables"
             newPrice={200}
           />
           <FeaturedItem
+            id="1"
             imageUrl={vegets.src}
             productName="Vegetables"
             newPrice={200}

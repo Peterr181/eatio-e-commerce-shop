@@ -1,15 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Navbar.module.scss";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
+import CartMenu from "../CartMenu/CartMenu";
 
 const Navbar = () => {
-  const item = useSelector((state: any) => state.cart);
-  const { data: session }: any = useSession();
-  console.log(item);
+  const { data: session } = useSession();
+  const cartItems = useSelector((state: any) => state.cart.items);
+  const [cartMenuOpen, setCartMenuOpen] = useState(false);
+
+  const handleCartIconClick = () => {
+    setCartMenuOpen(!cartMenuOpen);
+  };
   return (
     <MaxWidthWrapper>
       <nav className={styles.navbar}>
@@ -42,25 +47,27 @@ const Navbar = () => {
             </>
           ) : (
             <div className={styles.registeredButtons}>
-              <div className={styles.cartContainer}>
-                <Link href="/cart">
-                  <svg
-                    width="34"
-                    height="35"
-                    viewBox="0 0 34 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11.3333 14.6667H7.08333L4.25 30.25H29.75L26.9167 14.6667H22.6667M11.3333 14.6667V10.4167C11.3333 7.28705 13.8704 4.75 17 4.75V4.75C20.1296 4.75 22.6667 7.28705 22.6667 10.4167V14.6667M11.3333 14.6667H22.6667M11.3333 14.6667V18.9167M22.6667 14.6667V18.9167"
-                      stroke="#1A1A1A"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </Link>
-                <span className={styles.cartQuantity}>{item.items.length}</span>
+              <div
+                className={styles.cartContainer}
+                onClick={handleCartIconClick}
+              >
+                <svg
+                  width="34"
+                  height="35"
+                  viewBox="0 0 34 35"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.3333 14.6667H7.08333L4.25 30.25H29.75L26.9167 14.6667H22.6667M11.3333 14.6667V10.4167C11.3333 7.28705 13.8704 4.75 17 4.75V4.75C20.1296 4.75 22.6667 7.28705 22.6667 10.4167V14.6667M11.3333 14.6667H22.6667M11.3333 14.6667V18.9167M22.6667 14.6667V18.9167"
+                    stroke="#1A1A1A"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+                <span className={styles.cartQuantity}>{cartItems.length}</span>
               </div>
               <button
                 className={styles.buttonRegister}
@@ -72,6 +79,7 @@ const Navbar = () => {
           )}
         </div>
       </nav>
+      <CartMenu isOpen={cartMenuOpen} onClose={() => setCartMenuOpen(false)} />
     </MaxWidthWrapper>
   );
 };
