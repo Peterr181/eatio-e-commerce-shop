@@ -6,6 +6,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import Rating from "@/components/Rating/Rating";
 import useFetch from "@/hooks/useFetch";
 import FeaturedItem from "@/components/Featured/FeaturedItem";
+
 interface Meal {
   idMeal: string;
   strMealThumb: string;
@@ -31,10 +32,6 @@ interface CountryResponse {
 }
 
 const Products = () => {
-  const { data, loading, error } = useFetch<{ meals: Meal[] }>(
-    `https://www.themealdb.com/api/json/v1/1/search.php?s=`
-  );
-
   const {
     data: dataCategories,
     loading: loadingCategories,
@@ -48,93 +45,92 @@ const Products = () => {
     loading: loadingCountries,
     error: errorCountries,
   } = useFetch<CountryResponse>(
-    " https://www.themealdb.com/api/json/v1/1/list.php?a=list"
+    "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
   );
 
-  console.log(dataCategories);
-
-  const homeIcon = (
-    <svg
-      width="18"
-      height="19"
-      viewBox="0 0 18 19"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1 8L9 1L17 8V18H12V14C12 13.2044 11.6839 12.4413 11.1213 11.8787C10.5587 11.3161 9.79565 11 9 11C8.20435 11 7.44129 11.3161 6.87868 11.8787C6.31607 12.4413 6 13.2044 6 14V18H1V8Z"
-        stroke="#808080"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-
-  const paths = [{ icon: homeIcon, url: "/" }, { name: "Products" }];
+  const paths = [{ name: "Home", url: "/" }, { name: "Products" }];
 
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const [filteredMealsByCategory, setFilteredMealsByCategory] = useState<
-    Meal[]
-  >([]);
-  const [filteredMealsByName, setFilteredMealsByName] = useState<Meal[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [enteredName, setEnteredName] = useState("");
+  const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
+  const [mealsData, setMealsData] = useState<Meal[]>([]);
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEnteredName(e.target.value);
   };
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const handleCountryChange = (country: string) => {
-    if (selectedCountries.includes(country)) {
-      setSelectedCountries(selectedCountries.filter((c) => c !== country));
-    } else {
-      setSelectedCountries([...selectedCountries, country]);
-    }
+  const fetchAllMeals = async () => {
+    const mealPromises = dataCategories?.categories.map(async (category) => {
+      const response = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.strCategory}`
+      );
+      const data = await response.json();
+      return data.meals || [];
+    });
+    if (mealPromises)
+      Promise.all(mealPromises).then((allMeals) => {
+        const mergedMeals = allMeals.flat();
+        setFilteredMeals(mergedMeals);
+      });
   };
 
   useEffect(() => {
-    const fetchFilteredMealsByCategory = async () => {
+    if (dataCategories) {
+      fetchAllMeals();
+    }
+  }, [dataCategories]);
+
+  useEffect(() => {
+    const fetchFilteredMeals = async () => {
       if (selectedCategory) {
         const response = await fetch(
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`
         );
         const data = await response.json();
-        if (data.meals) {
-          setFilteredMealsByCategory(data.meals);
-        }
-      } else {
-        setFilteredMealsByCategory([]);
-      }
-    };
+        let filteredMealsByCategory = data.meals || [];
 
-    fetchFilteredMealsByCategory();
-  }, [selectedCategory]);
+        // If countries are selected, filter by country
+        if (selectedCountries.length > 0) {
+          const countryPromises = selectedCountries.map(async (country) => {
+            const response = await fetch(
+              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${country}`
+            );
+            const data = await response.json();
+            return data.meals || [];
+          });
 
-  useEffect(() => {
-    const fetchEnteredNameMeals = async () => {
-      if (enteredName) {
-        const response = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/search.php?s=${enteredName}`
-        );
-        const data = await response.json();
-        if (data.meals) {
-          setFilteredMealsByName(data.meals);
+          Promise.all(countryPromises).then((allMeals) => {
+            const mergedMeals = allMeals.flat();
+
+            const filteredMeals = filteredMealsByCategory.filter((meal: any) =>
+              mergedMeals.some((m) => m.idMeal === meal.idMeal)
+            );
+            setFilteredMeals(filteredMeals);
+          });
         } else {
-          setFilteredMealsByName([]);
+          setFilteredMeals(filteredMealsByCategory);
         }
+      } else if (selectedCountries.length > 0) {
+        const countryPromises = selectedCountries.map(async (country) => {
+          const response = await fetch(
+            `https://www.themealdb.com/api/json/v1/1/filter.php?a=${country}`
+          );
+          const data = await response.json();
+          return data.meals || [];
+        });
+
+        Promise.all(countryPromises).then((allMeals) => {
+          const mergedMeals = allMeals.flat();
+          setFilteredMeals(mergedMeals);
+        });
       } else {
-        setFilteredMealsByName([]);
+        fetchAllMeals();
       }
     };
-    fetchEnteredNameMeals();
-  }, [enteredName]);
 
-  console.log(enteredName);
+    fetchFilteredMeals();
+  }, [selectedCategory, selectedCountries]);
 
   return (
     <>
@@ -149,171 +145,86 @@ const Products = () => {
               value={enteredName}
               onChange={handleInput}
             />
-
-            <p>
-              {selectedCategory
-                ? `${filteredMealsByCategory.length} Results Found`
-                : enteredName
-                ? `${filteredMealsByName.length} Results Found`
-                : `${data?.meals?.length} Results Found`}
-            </p>
+            <p>{filteredMeals.length} Results Found</p>
           </div>
           <div className={styles.products__mainWrapper}>
+            {/* Filters Section */}
             <div className={styles.products__mainFilters}>
               <div className={styles.products__section__categories}>
+                {/* Category Filter */}
                 <h3 className={styles.products__header}>All categories</h3>
-                <div>
-                  <ul className={styles.products__categoryList}>
-                    {/* Render custom "All" category */}
-                    <li key="All">
+                <ul className={styles.products__categoryList}>
+                  <li key="All">
+                    <label className={styles.checkBox}>
+                      <input
+                        type="radio"
+                        name="category"
+                        value=""
+                        checked={selectedCategory === ""}
+                        onChange={() => setSelectedCategory("")}
+                        className={styles.checkbox}
+                      />
+                      All
+                    </label>
+                  </li>
+                  {dataCategories?.categories.map((category) => (
+                    <li key={category.strCategory}>
                       <label className={styles.checkBox}>
                         <input
                           type="radio"
                           name="category"
-                          value=""
-                          checked={selectedCategory === ""}
-                          onChange={() => handleCategoryChange("")}
+                          value={category.strCategory}
+                          checked={selectedCategory === category.strCategory}
+                          onChange={() =>
+                            setSelectedCategory(category.strCategory)
+                          }
                           className={styles.checkbox}
                         />
-                        Random
+                        {category.strCategory}
                       </label>
                     </li>
-
-                    {dataCategories?.categories.map((category) => (
-                      <li key={category.strCategory}>
-                        <label className={styles.checkBox}>
-                          <input
-                            type="radio"
-                            name="category"
-                            value={category.strCategory}
-                            checked={selectedCategory === category.strCategory}
-                            onChange={() =>
-                              handleCategoryChange(category.strCategory)
-                            }
-                            className={styles.checkbox}
-                          />
-                          {category.strCategory}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className={styles.products__section__price}>
-                <h3 className={styles.products__header}>Price</h3>
-                <div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    className={styles.inputRange}
-                  />
-                  <p>Price: $0 - $100</p>
-                </div>
-              </div>
-              <div className={styles.products__section__ratings}>
-                <h3 className={styles.products__header}>Rating</h3>
-                <Rating initialValue={5} maxRating={5} />
-                <Rating initialValue={4} maxRating={5} />
-                <Rating initialValue={3} maxRating={5} />
-                <Rating initialValue={2} maxRating={5} />
-                <Rating initialValue={1} maxRating={5} />
+                  ))}
+                </ul>
               </div>
               <div className={styles.products__section__countries}>
+                {/* Country Filter */}
                 <h3 className={styles.products__header}>By country</h3>
-                <div>
-                  <ul className={styles.products__countries}>
-                    {dataCountries?.meals.map((country) => (
-                      <li key={country.strArea}>
-                        <label className={styles.checkBox}>
-                          <input
-                            type="checkbox"
-                            name="country"
-                            value={country.strArea}
-                            checked={selectedCountries.includes(
-                              country.strArea
-                            )}
-                            onChange={() =>
-                              handleCountryChange(country.strArea)
-                            }
-                            className={styles.checkbox}
-                          />
-                          {country.strArea}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <ul className={styles.products__countries}>
+                  {dataCountries?.meals.map((country) => (
+                    <li key={country.strArea}>
+                      <label className={styles.checkBox}>
+                        <input
+                          type="checkbox"
+                          name="country"
+                          value={country.strArea}
+                          checked={selectedCountries.includes(country.strArea)}
+                          onChange={() =>
+                            setSelectedCountries((prev) =>
+                              prev.includes(country.strArea)
+                                ? prev.filter((c) => c !== country.strArea)
+                                : [...prev, country.strArea]
+                            )
+                          }
+                          className={styles.checkbox}
+                        />
+                        {country.strArea}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
+            {/* Products Section */}
             <div className={styles.products__productsItems}>
-              {selectedCategory && selectedCountries.length > 0 ? (
-                // If both category and country are selected
-                data &&
-                data.meals &&
-                data.meals
-                  .filter(
-                    (meal) =>
-                      meal.strArea &&
-                      selectedCountries.includes(meal.strArea) &&
-                      meal.strCategory === selectedCategory
-                  )
-                  .map((meal) => (
-                    <FeaturedItem
-                      id={meal.idMeal}
-                      key={meal.idMeal}
-                      imageUrl={meal.strMealThumb}
-                      productName={meal.strMeal}
-                      newPrice={Math.floor(Math.random() * 501)}
-                    />
-                  ))
-              ) : selectedCategory && filteredMealsByCategory.length > 0 ? (
-                filteredMealsByCategory.map((meal) => (
-                  <FeaturedItem
-                    id={meal.idMeal}
-                    key={meal.idMeal}
-                    imageUrl={meal.strMealThumb}
-                    productName={meal.strMeal}
-                    newPrice={Math.floor(Math.random() * 501)}
-                  />
-                ))
-              ) : (
-                <>
-                  {enteredName && filteredMealsByName.length > 0
-                    ? filteredMealsByName
-                        .filter((meal) =>
-                          selectedCountries.length === 0
-                            ? true
-                            : selectedCountries.includes(meal.strArea)
-                        )
-                        .map((meal) => (
-                          <FeaturedItem
-                            id={meal.idMeal}
-                            key={meal.idMeal}
-                            imageUrl={meal.strMealThumb}
-                            productName={meal.strMeal}
-                            newPrice={Math.floor(Math.random() * 501)}
-                          />
-                        ))
-                    : data &&
-                      data.meals &&
-                      data.meals
-                        .filter((meal) =>
-                          selectedCountries.length === 0
-                            ? true
-                            : selectedCountries.includes(meal.strArea)
-                        )
-                        .map((meal) => (
-                          <FeaturedItem
-                            id={meal.idMeal}
-                            key={meal.idMeal}
-                            imageUrl={meal.strMealThumb}
-                            productName={meal.strMeal}
-                            newPrice={Math.floor(Math.random() * 501)}
-                          />
-                        ))}
-                </>
-              )}
+              {filteredMeals.map((meal) => (
+                <FeaturedItem
+                  id={meal.idMeal}
+                  key={meal.idMeal}
+                  imageUrl={meal.strMealThumb}
+                  productName={meal.strMeal}
+                  newPrice={Math.floor(Math.random() * 501)}
+                />
+              ))}
             </div>
           </div>
         </div>
