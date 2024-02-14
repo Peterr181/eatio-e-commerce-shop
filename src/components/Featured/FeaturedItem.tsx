@@ -4,7 +4,7 @@ import Image from "next/image";
 import Rating from "../Rating/Rating";
 import styles from "./Featured.module.scss";
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/redux/CartSlice";
+import { addToCart, updateCartItemQuantity } from "@/redux/CartSlice";
 import { useSelector } from "react-redux";
 
 interface FeaturedItemProps {
@@ -23,15 +23,26 @@ const FeaturedItem = ({
   oldPrice,
 }: FeaturedItemProps) => {
   const dispatch = useDispatch();
-
+  const cartItems = useSelector((state: any) => state.cart.items);
   const handleAddToCart = () => {
-    const itemToAdd = {
-      id: id,
-      imageUrl: imageUrl,
-      productName: productName,
-      price: newPrice,
-    };
-    dispatch(addToCart(itemToAdd));
+    const existingItem = cartItems.find((item: any) => item.id === id);
+
+    if (existingItem) {
+      // If item already exists, update its quantity
+      dispatch(
+        updateCartItemQuantity({ id: id, quantity: existingItem.quantity + 1 })
+      );
+    } else {
+      // If item doesn't exist, add it to the cart with quantity 1
+      const itemToAdd = {
+        id: id,
+        imageUrl: imageUrl,
+        productName: productName,
+        price: newPrice,
+        quantity: 1,
+      };
+      dispatch(addToCart(itemToAdd));
+    }
   };
 
   return (

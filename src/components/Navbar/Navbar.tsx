@@ -6,6 +6,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import CartMenu from "../CartMenu/CartMenu";
+import storage from "redux-persist/lib/storage";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -14,6 +15,11 @@ const Navbar = () => {
 
   const handleCartIconClick = () => {
     setCartMenuOpen(!cartMenuOpen);
+  };
+
+  const handleLogout = () => {
+    signOut();
+    storage.removeItem("persist:root");
   };
   return (
     <MaxWidthWrapper>
@@ -69,10 +75,7 @@ const Navbar = () => {
 
                 <span className={styles.cartQuantity}>{cartItems.length}</span>
               </div>
-              <button
-                className={styles.buttonRegister}
-                onClick={() => signOut()}
-              >
+              <button className={styles.buttonRegister} onClick={handleLogout}>
                 Logout
               </button>
             </div>

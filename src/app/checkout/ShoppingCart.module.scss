@@ -1,0 +1,109 @@
+@import "../../app/styles/variables.scss";
+.shoppingHeader {
+  text-align: center;
+  margin-top: 50px;
+  font-weight: 600;
+}
+
+.checkout {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+
+  &__delete {
+    border: 1px solid orange;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 50%;
+    padding: 10px;
+    font-weight: 600;
+  }
+}
+
+.checkout__table {
+  td,
+  th {
+    padding: 15px; /* Adjust as needed */
+  }
+
+  .tableRow {
+    margin-bottom: 20px; /* Adjust as needed */
+  }
+  thead {
+    tr {
+      th {
+        font-weight: 600;
+        color: grey;
+      }
+    }
+  }
+}
+
+.tableRow {
+  td {
+    img {
+      margin-right: 50px;
+      width: 150px;
+      height: 150px;
+    }
+  }
+}
+
+.backShoppingBtn {
+  margin-bottom: 20px;
+  background-color: $mainBlue;
+  border: none;
+  padding: 10px 35px;
+  color: #fff;
+  border-radius: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buyItemsBtn {
+  margin-bottom: 20px;
+  border: 3px solid $mainBlue;
+  background-color: transparent;
+
+  padding: 10px 35px;
+  color: #333;
+  border-radius: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkoutButtons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.quantityBtnRemove {
+  margin-right: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  border: 1px solid red;
+  cursor: pointer;
+  color: black;
+  border-radius: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.quantityBtnAdd {
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  border-radius: 50%;
+  border: 1px solid green;
+  cursor: pointer;
+  color: black;
+  border-radius: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
