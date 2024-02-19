@@ -25,7 +25,10 @@
 .checkout__table {
   td,
   th {
-    padding: 15px; /* Adjust as needed */
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px; /* Adjust as needed */
   }
 
   .tableRow {
@@ -60,6 +63,10 @@
   border-radius: 21px;
   font-weight: 600;
   cursor: pointer;
+}
+.total {
+  font-weight: 600;
+  margin: 20px;
 }
 
 .buyItemsBtn {

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Breadcrumbs.module.scss";
 import bread from "../../assets/bread.png";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
+import Link from "next/link";
 
 interface Breadcrumb {
   name?: string;
@@ -18,7 +19,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ paths }) => {
     <nav aria-label="breadcrumb" className={styles.breadcrumbsContainer}>
       <div className={styles.wholeContainer}>
         <div className={styles.imageContainer}>
-          <img src={bread.src} alt="Your Image" />
+          <img src={bread.src} alt="Your Image" />{" "}
         </div>
         <MaxWidthWrapper>
           <ul className={styles.breadcrumbs}>
@@ -33,16 +34,17 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ paths }) => {
                     <span className={styles.icon}>{path.icon}</span>
                   )}
                   {path.url ? (
-                    <a href={path.url} className={styles.breadcrumbItemLink}>
-                      {path.name}
-                    </a>
+                    <Link href={path.url}>
+                      {" "}
+                      <a className={styles.breadcrumbItemLink}>{path.name}</a>
+                    </Link>
                   ) : (
                     <span className={styles.breadcrumbItemName}>
                       {path.name}
                     </span>
                   )}
                 </li>
-                {index < paths.length - 1 && ( // Conditionally render the arrow
+                {index < paths.length - 1 && (
                   <svg
                     width="6"
                     height="10"
@@ -53,8 +55,8 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ paths }) => {
                     <path
                       d="M1 0.916676L5.08333 5.00001L1 9.08334"
                       stroke="#999999"
-                      strokeLinecap="round" // Corrected attribute name
-                      strokeLinejoin="round" // Corrected attribute name
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 )}

@@ -62,7 +62,7 @@ const CartMenu: React.FC<CartMenuProps> = ({ isOpen, onClose }) => {
         <button className={styles.closeButton} onClick={onClose}>
           Continue shopping
         </button>
-        <Link href="/checkout">
+        <Link href="/shopping-cart">
           <button className={styles.checkoutButton} onClick={onClose}>
             Checkout
           </button>

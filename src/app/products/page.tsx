@@ -138,13 +138,13 @@ const Products = () => {
       <MaxWidthWrapper>
         <div className={styles.products}>
           <div className={styles.products__filter}>
-            <input
+            {/* <input
               type="text"
               className={styles.products__searchInput}
               placeholder="Enter meal name"
               value={enteredName}
               onChange={handleInput}
-            />
+            /> */}
             <p>{filteredMeals.length} Results Found</p>
           </div>
           <div className={styles.products__mainWrapper}>

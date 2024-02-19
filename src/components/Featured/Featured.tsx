@@ -22,19 +22,19 @@ function Featured() {
             newPrice={200}
           />
           <FeaturedItem
-            id="1"
+            id="2"
             imageUrl={cake.src}
             productName="Cake"
             newPrice={200}
           />
           <FeaturedItem
-            id="1"
+            id="3"
             imageUrl={vegets.src}
             productName="Vegetables"
             newPrice={200}
           />
           <FeaturedItem
-            id="1"
+            id="4"
             imageUrl={vegets.src}
             productName="Vegetables"
             newPrice={200}

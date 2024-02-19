@@ -1,15 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import styles from "./checkout.module.scss";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import styles from "./ShoppingCart.module.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, updateCartItemQuantity } from "@/redux/CartSlice";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { clearCart } from "@/redux/CartSlice";
+interface CheckoutFormData {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+}
 
-const Checkout = () => {
-  const cartItems = useSelector((state: any) => state.cart.items);
+const CheckoutForm: React.FC = () => {
   const dispatch = useDispatch();
-
   const homeIcon = (
     <svg
       width="18"
@@ -28,87 +33,91 @@ const Checkout = () => {
     </svg>
   );
   const paths = [{ icon: homeIcon, url: "/" }, { name: "Checkout" }];
+  const [formData, setFormData] = useState<CheckoutFormData>({
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    postalCode: "",
+  });
 
-  const handleDeleteItem = (itemId: number) => {
-    dispatch(removeFromCart({ id: itemId }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleIncreaseQuantity = (itemId: number) => {
-    dispatch(
-      updateCartItemQuantity({
-        id: itemId,
-        quantity:
-          cartItems.find((item: any) => item.id === itemId)?.quantity + 1 || 1,
-      })
-    );
-  };
-
-  const handleDecreaseQuantity = (itemId: number) => {
-    dispatch(updateCartItemQuantity({ id: itemId, quantity: -1 }));
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(clearCart());
+    console.log("Form data:", formData);
   };
 
   return (
-    <div>
+    <>
       <Breadcrumbs paths={paths} />
-      <h1 className={styles.shoppingHeader}>Shopping Cart</h1>
-      <div className={styles.checkout}>
-        <table className={styles.checkout__table}>
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Subtotal</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map((item: any) => (
-              <tr key={item.id} className={styles.tableRow}>
-                <td>
-                  <img src={item.imageUrl} alt={item.name} />
-                </td>
-                <td>{item.productName}</td>
-                <td>${item.price}</td>
-                <td>
-                  <button
-                    className={styles.quantityBtnRemove}
-                    onClick={() => handleDecreaseQuantity(item.id)}
-                    disabled={item.quantity === 1}
-                  >
-                    -
-                  </button>
-                  {item.quantity}
-                  <button
-                    className={styles.quantityBtnAdd}
-                    onClick={() => handleIncreaseQuantity(item.id)}
-                  >
-                    +
-                  </button>
-                </td>
-                <td>${(item.price * item.quantity).toFixed(2)}</td>
-                <td>
-                  <button
-                    className={styles.checkout__delete}
-                    onClick={() => handleDeleteItem(item.id)}
-                  >
-                    X
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className={styles.checkoutButtons}>
-          <Link href="/">
-            <button className={styles.backShoppingBtn}>Back to shopping</button>
-          </Link>
-          <button className={styles.buyItemsBtn}>Buy items</button>
-        </div>
-      </div>
-    </div>
+      <form className={styles.checkoutForm} onSubmit={handleSubmit}>
+        <label>
+          First Name:
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Last Name:
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Address:
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          City:
+          <input
+            type="text"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Postal Code:
+          <input
+            type="text"
+            name="postalCode"
+            value={formData.postalCode}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <button type="submit">Buy items</button>
+        <Link href="/shopping-cart">
+          <button type="submit" className={styles.order}>
+            Browse your order
+          </button>
+        </Link>
+      </form>
+    </>
   );
 };
 
-export default Checkout;
+export default CheckoutForm;
