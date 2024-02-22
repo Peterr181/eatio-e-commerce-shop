@@ -17,7 +17,21 @@
   justify-content: space-between;
   padding: 20px 0;
   align-items: center;
+  transition: top 0.3s ease;
 
+  &.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-left: 80px;
+    padding-right: 80px;
+    padding: 25px;
+
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
   &__elements {
     display: flex;
     list-style: none;
@@ -29,6 +43,7 @@
   &__buttons {
     display: flex;
     gap: 20px;
+
     button {
       font-size: 18px;
       cursor: pointer;

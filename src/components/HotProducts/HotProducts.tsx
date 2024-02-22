@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styles from "./HotProducts.module.scss";
 import FeaturedItem from "../Featured/FeaturedItem";
 import useFetch from "@/hooks/useFetch";
@@ -21,8 +21,6 @@ const HotProducts = () => {
   const { data, loading, error } = useFetch<{ meals: Meal[] }>(
     `https://www.themealdb.com/api/json/v1/1/filter.php?c=${activeCategory}`
   );
-
-  console.log(data);
 
   return (
     <section className={styles.hotProducts}>
@@ -99,19 +97,18 @@ const HotProducts = () => {
         <div className={styles.hotProducts__items}>
           {data &&
             data.meals &&
-            data.meals.slice(0, 4).map((product) => {
-              const randomNumber = Math.floor(Math.random() * 501);
-              return (
+            data.meals
+              .slice(0, 4)
+              .map((product, index) => (
                 <FeaturedItem
                   id={product.idMeal}
                   key={product.idMeal}
                   imageUrl={product.strMealThumb}
                   productName={product.strMeal}
-                  newPrice={randomNumber}
-                  oldPrice={randomNumber + 100}
+                  newPrice={400}
+                  oldPrice={500}
                 />
-              );
-            })}
+              ))}
         </div>
       )}
     </section>

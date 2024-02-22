@@ -3,14 +3,28 @@
 .cartMenu {
   position: fixed;
   top: 0;
-  right: -400px; /* Initially off-screen */
+  right: -400px;
   width: 400px;
   height: 100%;
   background-color: white;
   z-index: 1000;
   transition: right 0.3s ease-in-out;
   text-align: center;
-  overflow-y: auto; /* Add overflow-y to enable scrolling if needed */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+
+    svg {
+      fill: orange;
+      cursor: pointer;
+    }
+  }
 
   h2 {
     margin: 10px;
@@ -19,14 +33,14 @@
 }
 
 .open {
-  right: 0; /* Slide in from the right when open */
+  right: 0;
 }
 
 .cartItems {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px; /* Add margin to create space for total and buttons */
+  margin-bottom: 30px;
 }
 
 .cartItem {
@@ -61,8 +75,9 @@
 
 .totalContainer {
   text-align: center;
-  width: 100%;
+
   margin-bottom: 10px;
+  margin-top: auto;
 }
 
 .checkoutButton {
@@ -82,4 +97,21 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.totalData {
+  margin-top: auto;
+}
+
+.clearCart {
+  align-self: flex-start;
+  margin: 0 auto;
+  border: none;
+  background-color: orangered;
+  padding: 10px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 21px;
+  cursor: pointer;
+  margin-bottom: 30px;
 }

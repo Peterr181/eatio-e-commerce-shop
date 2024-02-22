@@ -54,6 +54,9 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(30);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const fetchAllMeals = async () => {
     setLoadingProducts(true); // Set loading state to true
@@ -81,6 +84,7 @@ const Products = () => {
   useEffect(() => {
     const fetchFilteredMeals = async () => {
       if (selectedCategory) {
+        setCurrentPage(1);
         const response = await fetch(
           `https://www.themealdb.com/api/json/v1/1/filter.php?c=${selectedCategory}`
         );
@@ -128,6 +132,10 @@ const Products = () => {
 
     fetchFilteredMeals();
   }, [selectedCategory, selectedCountries]);
+  const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredMeals.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -202,23 +210,34 @@ const Products = () => {
                 </ul>
               </div>
             </div>
+
             {loadingProducts && (
               <div className={styles.loaderProducts}>Loading...</div>
             )}
-            <div className={styles.products__productsItems}>
-              {/* Loader */}
-
-              {/* Products */}
-              {!loadingProducts &&
-                filteredMeals.map((meal) => (
-                  <FeaturedItem
-                    id={meal.idMeal}
-                    key={meal.idMeal}
-                    imageUrl={meal.strMealThumb}
-                    productName={meal.strMeal}
-                    newPrice={Math.floor(Math.random() * 501)}
-                  />
+            <div>
+              <div className={styles.products__productsItems}>
+                {!loadingProducts &&
+                  currentItems.map((meal) => (
+                    <FeaturedItem
+                      id={meal.idMeal}
+                      key={meal.idMeal}
+                      imageUrl={meal.strMealThumb}
+                      productName={meal.strMeal}
+                      newPrice={30}
+                    />
+                  ))}
+              </div>
+              <div className={styles.pagination}>
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                    className={currentPage === index + 1 ? styles.active : ""}
+                  >
+                    {index + 1}
+                  </button>
                 ))}
+              </div>
             </div>
           </div>
         </div>

@@ -120,3 +120,28 @@
   justify-content: center;
   align-items: center;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 15px;
+
+  button {
+    border: none;
+    border: 1px solid orange;
+    background-color: #fff;
+    color: black;
+    font-weight: 500;
+
+    padding: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 11px;
+  }
+}
+.pagination button.active {
+  background-color: orange;
+  color: #fff;
+}

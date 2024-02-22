@@ -27,7 +27,6 @@ const ShoppingCart = () => {
       />
     </svg>
   );
-  const paths = [{ icon: homeIcon, url: "/" }, { name: "ShoppingCart" }];
 
   const handleDeleteItem = (itemId: number) => {
     dispatch(removeFromCart({ id: itemId }));
@@ -55,7 +54,9 @@ const ShoppingCart = () => {
 
   return (
     <div>
-      <Breadcrumbs paths={paths} />
+      <Breadcrumbs
+        paths={[{ name: "Home", url: "/" }, { name: "ShoppingCart" }]}
+      />
       <h1 className={styles.shoppingHeader}>Shopping Cart</h1>
       <div className={styles.checkout}>
         <table className={styles.checkout__table}>

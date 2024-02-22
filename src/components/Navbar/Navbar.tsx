@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 import MaxWidthWrapper from "../MaxWidthWrapper/MaxWidthWrapper";
 import Link from "next/link";
@@ -12,7 +12,7 @@ const Navbar = () => {
   const { data: session } = useSession();
   const cartItems = useSelector((state: any) => state.cart.items);
   const [cartMenuOpen, setCartMenuOpen] = useState(false);
-
+  const [isSticky, setIsSticky] = useState(false);
   const handleCartIconClick = () => {
     setCartMenuOpen(!cartMenuOpen);
   };
@@ -21,9 +21,28 @@ const Navbar = () => {
     signOut();
     storage.removeItem("persist:root");
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 800) {
+        // Adjust this value based on when you want the navbar to become sticky
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <MaxWidthWrapper>
-      <nav className={styles.navbar}>
+      <nav className={`${styles.navbar} ${isSticky ? styles.sticky : ""}`}>
         <Link href="/">
           <div>
             <p className={styles.navbar__logo}>Meally</p>
