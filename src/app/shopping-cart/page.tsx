@@ -69,6 +69,7 @@ const ShoppingCart = () => {
               <th>Action</th>
             </tr>
           </thead>
+
           <tbody>
             {cartItems.map((item: any) => (
               <tr key={item.id} className={styles.tableRow}>
@@ -106,6 +107,11 @@ const ShoppingCart = () => {
             ))}
           </tbody>
         </table>
+        {cartItems.length === 0 && (
+          <div className={styles.emptyCartContainer}>
+            <p className={styles.emptyCart}>Oops cart is empty add some!</p>
+          </div>
+        )}
         <div>
           <h2 className={styles.total}>
             Total: $

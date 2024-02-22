@@ -23,6 +23,9 @@
 }
 
 .checkout__table {
+  tbody {
+    width: 100%;
+  }
   td,
   th {
     padding-right: 40px;
@@ -89,28 +92,42 @@
 
 .quantityBtnRemove {
   margin-right: 10px;
-  background-color: transparent;
+
   border: none;
-  padding: 5px;
-  border-radius: 50%;
-  border: 1px solid red;
+  width: 25px;
+  height: 25px;
+  background-color: red;
   cursor: pointer;
-  color: black;
-  border-radius: 21px;
+  color: #fff;
+  font-size: 16px;
+
   font-weight: 600;
   cursor: pointer;
 }
 
 .quantityBtnAdd {
   margin-left: 10px;
-  background-color: transparent;
+
   border: none;
-  padding: 5px;
-  border-radius: 50%;
-  border: 1px solid green;
+  width: 25px;
+  height: 25px;
+  background-color: green;
   cursor: pointer;
-  color: black;
-  border-radius: 21px;
+  color: #fff;
+  font-size: 16px;
+
   font-weight: 600;
   cursor: pointer;
+}
+
+.emptyCart {
+  text-align: center;
+  color: grey;
+  margin-top: 20px;
+}
+
+.emptyCartContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

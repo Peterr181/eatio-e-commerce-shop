@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { clearCart } from "@/redux/CartSlice";
+
 interface CheckoutFormData {
   firstName: string;
   lastName: string;
@@ -52,7 +53,6 @@ const CheckoutForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(clearCart());
-    console.log("Form data:", formData);
   };
 
   return (

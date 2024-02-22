@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Rating from "../Rating/Rating";
 import styles from "./Featured.module.scss";
@@ -24,16 +24,25 @@ const FeaturedItem = ({
 }: FeaturedItemProps) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: any) => state.cart.items);
+  const [isAdded, setIsAdded] = useState(false);
+
   const handleAddToCart = () => {
     const existingItem = cartItems.find((item: any) => item.id === id);
 
     if (existingItem) {
-      // If item already exists, update its quantity
-      dispatch(
-        updateCartItemQuantity({ id: id, quantity: existingItem.quantity + 1 })
-      );
+      if (existingItem.quantity < 10) {
+        dispatch(
+          updateCartItemQuantity({
+            id: id,
+            quantity: existingItem.quantity + 1,
+          })
+        );
+        setIsAdded(true);
+      } else {
+        setIsAdded(false);
+        alert("You have reached the maximum quantity for this item.");
+      }
     } else {
-      // If item doesn't exist, add it to the cart with quantity 1
       const itemToAdd = {
         id: id,
         imageUrl: imageUrl,
@@ -42,7 +51,12 @@ const FeaturedItem = ({
         quantity: 1,
       };
       dispatch(addToCart(itemToAdd));
+      setIsAdded(true);
     }
+
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
   };
 
   return (
@@ -57,8 +71,8 @@ const FeaturedItem = ({
         )}
       </div>
       <Rating initialValue={5} maxRating={5} />
-      <button onClick={handleAddToCart}>
-        Add to cart{" "}
+      <button onClick={handleAddToCart} className={isAdded ? styles.added : ""}>
+        {isAdded ? "Added!" : "Add to cart"}
         <svg
           width="25"
           height="23"

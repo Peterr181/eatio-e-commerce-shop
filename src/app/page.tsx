@@ -17,20 +17,6 @@ export default function Home() {
       <MaxWidthWrapper>
         <Hero />
         <Categories />
-        {/* <div className={styles.shopNowCards}>
-          <ShopNow
-            imageUrl={firstinfo.src}
-            itemHeader="Fresh Fruit"
-            itemDesc="Fresh Summer With Just $200.99"
-            textColor="white"
-          />
-          <ShopNow
-            imageUrl={secondinfo.src}
-            itemHeader="Fresh Fruit"
-            itemDesc="Fresh Summer With Just $200.99"
-            textColor="black"
-          />
-        </div> */}
         <Featured />
       </MaxWidthWrapper>
       <TimeOffer />

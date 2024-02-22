@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./HotProducts.module.scss";
 import FeaturedItem from "../Featured/FeaturedItem";
 import useFetch from "@/hooks/useFetch";
+import Link from "next/link";
 
 interface Meal {
   idMeal: string;
@@ -28,7 +29,9 @@ const HotProducts = () => {
       <div className={styles.hotProducts__header}>
         <h2>Hot Products</h2>
         <div className={styles.hotProducts__header__shop}>
-          <p>Shop all</p>
+          <Link href="/products">
+            <p>Shop all</p>
+          </Link>
           <div className={styles.arrowIcon}>
             <svg
               width="24"

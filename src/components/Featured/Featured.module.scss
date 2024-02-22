@@ -84,3 +84,18 @@
     }
   }
 }
+
+.featured__item {
+  // Your existing styles
+
+  button {
+    // Your existing button styles
+
+    &.added {
+      background-color: orange; // Example color change when added
+    }
+
+    // Transition for the animation effect
+    transition: background-color 0.3s ease;
+  }
+}

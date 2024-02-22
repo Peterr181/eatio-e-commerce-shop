@@ -37,7 +37,7 @@ const CartMenu: React.FC<CartMenuProps> = ({ isOpen, onClose }) => {
   return (
     <div className={`${styles.cartMenu} ${isOpen ? styles.open : ""}`}>
       <h2>Shopping cart</h2>
-
+      {cartItems.length === 0 && <p>Your cart is empty</p>}
       <div className={styles.cartItems}>
         {cartItems.map((item) => (
           <div key={item.id} className={styles.cartItem}>

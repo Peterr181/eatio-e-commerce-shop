@@ -52,15 +52,11 @@ const Products = () => {
 
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [enteredName, setEnteredName] = useState("");
   const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
-  const [mealsData, setMealsData] = useState<Meal[]>([]);
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredName(e.target.value);
-  };
+  const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
 
   const fetchAllMeals = async () => {
+    setLoadingProducts(true); // Set loading state to true
     const mealPromises = dataCategories?.categories.map(async (category) => {
       const response = await fetch(
         `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.strCategory}`
@@ -72,6 +68,7 @@ const Products = () => {
       Promise.all(mealPromises).then((allMeals) => {
         const mergedMeals = allMeals.flat();
         setFilteredMeals(mergedMeals);
+        setLoadingProducts(false); // Set loading state to false when data is fetched
       });
   };
 
@@ -138,20 +135,12 @@ const Products = () => {
       <MaxWidthWrapper>
         <div className={styles.products}>
           <div className={styles.products__filter}>
-            {/* <input
-              type="text"
-              className={styles.products__searchInput}
-              placeholder="Enter meal name"
-              value={enteredName}
-              onChange={handleInput}
-            /> */}
             <p>{filteredMeals.length} Results Found</p>
           </div>
           <div className={styles.products__mainWrapper}>
             {/* Filters Section */}
             <div className={styles.products__mainFilters}>
               <div className={styles.products__section__categories}>
-                {/* Category Filter */}
                 <h3 className={styles.products__header}>All categories</h3>
                 <ul className={styles.products__categoryList}>
                   <li key="All">
@@ -187,7 +176,6 @@ const Products = () => {
                 </ul>
               </div>
               <div className={styles.products__section__countries}>
-                {/* Country Filter */}
                 <h3 className={styles.products__header}>By country</h3>
                 <ul className={styles.products__countries}>
                   {dataCountries?.meals.map((country) => (
@@ -214,17 +202,23 @@ const Products = () => {
                 </ul>
               </div>
             </div>
-            {/* Products Section */}
+            {loadingProducts && (
+              <div className={styles.loaderProducts}>Loading...</div>
+            )}
             <div className={styles.products__productsItems}>
-              {filteredMeals.map((meal) => (
-                <FeaturedItem
-                  id={meal.idMeal}
-                  key={meal.idMeal}
-                  imageUrl={meal.strMealThumb}
-                  productName={meal.strMeal}
-                  newPrice={Math.floor(Math.random() * 501)}
-                />
-              ))}
+              {/* Loader */}
+
+              {/* Products */}
+              {!loadingProducts &&
+                filteredMeals.map((meal) => (
+                  <FeaturedItem
+                    id={meal.idMeal}
+                    key={meal.idMeal}
+                    imageUrl={meal.strMealThumb}
+                    productName={meal.strMeal}
+                    newPrice={Math.floor(Math.random() * 501)}
+                  />
+                ))}
             </div>
           </div>
         </div>
