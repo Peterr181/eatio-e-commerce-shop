@@ -72,3 +72,56 @@
 .timer div {
   text-align: center;
 }
+
+@media screen and (max-width: 1000px) {
+  .textContent {
+    h2 {
+      font-size: 40px;
+    }
+    &__desc {
+      color: #fff;
+      font-size: 16px;
+    }
+  }
+  .timeOfferContent {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    max-width: 100%;
+  }
+
+  .timer {
+    display: flex;
+    gap: 15px;
+    &__item {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 15px;
+      gap: 2px;
+      &__number {
+        padding: 10px;
+        border: 1px solid #fff;
+      }
+    }
+  }
+
+  .timeOfferImage img {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .textContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      margin: 0 auto;
+    }
+  }
+}

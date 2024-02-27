@@ -60,11 +60,11 @@ const ShoppingCart = () => {
       <h1 className={styles.shoppingHeader}>Shopping Cart</h1>
       <div className={styles.checkout}>
         <table className={styles.checkout__table}>
-          <thead>
+          <thead className={styles.tableMobile}>
             <tr>
-              <th>Image</th>
+              <th className={styles.tableMobile}>Image</th>
               <th>Name</th>
-              <th>Price</th>
+              <th className={styles.tableMobile}>Price</th>
               <th>Quantity</th>
               <th>Subtotal</th>
               <th>Action</th>
@@ -74,11 +74,11 @@ const ShoppingCart = () => {
           <tbody>
             {cartItems.map((item: any) => (
               <tr key={item.id} className={styles.tableRow}>
-                <td>
+                <td className={styles.tableImage}>
                   <img src={item.imageUrl} alt={item.name} />
                 </td>
                 <td>{item.productName}</td>
-                <td>${item.price}</td>
+                <td className={styles.tableMobile}>${item.price}</td>
                 <td>
                   <button
                     className={styles.quantityBtnRemove}

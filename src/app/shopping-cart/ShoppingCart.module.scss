@@ -131,3 +131,114 @@
   justify-content: center;
   align-items: center;
 }
+
+@media only screen and (max-width: 768px) {
+  .checkout {
+    &__table {
+      th,
+      td {
+        padding: 6px 8px; /* Adjust padding for smaller screens */
+      }
+
+      .tableRow {
+        margin-bottom: 5px; /* Adjust margin for smaller screens */
+      }
+    }
+
+    .quantityBtnRemove,
+    .quantityBtnAdd {
+      font-size: 14px; /* Reduce button size for smaller screens */
+      width: 15x;
+      height: 15px;
+    }
+  }
+
+  .backShoppingBtn,
+  .buyItemsBtn {
+    padding: 8px 25px; /* Adjust button padding for smaller screens */
+    font-size: 14px; /* Reduce button font size for smaller screens */
+  }
+  .tableRow {
+    td {
+      img {
+        margin-right: 20px;
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .checkout {
+    &__table {
+      th,
+      td {
+        padding: 4px 6px; /* Further adjust padding for smaller screens */
+      }
+    }
+
+    .quantityBtnRemove,
+    .quantityBtnAdd {
+      font-size: 12px; /* Further reduce button size for smaller screens */
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .backShoppingBtn,
+  .buyItemsBtn {
+    padding: 6px 20px; /* Further adjust button padding for smaller screens */
+    font-size: 12px; /* Further reduce button font size for smaller screens */
+  }
+  .tableRow {
+    td {
+      img {
+        margin-right: 5px;
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+  .tableMobile {
+    display: none;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .table {
+  }
+  .checkout__table {
+    th,
+    td {
+      /* Further adjust padding for smaller screens */
+    }
+
+    .tableRow {
+      margin-bottom: 3px; /* Further adjust margin for smaller screens */
+    }
+  }
+
+  .quantityBtnRemove,
+  .quantityBtnAdd {
+    font-size: 10px; /* Further reduce button size for smaller screens */
+    width: 12px;
+    height: 12px;
+  }
+
+  .backShoppingBtn,
+  .buyItemsBtn {
+    padding: 6px 15px; /* Further adjust button padding for smaller screens */
+    font-size: 10px; /* Further reduce button font size for smaller screens */
+  }
+}
+.tableItemsQuantity {
+  display: flex;
+  align-items: center;
+}
+
+.tableQuantityButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}

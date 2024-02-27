@@ -94,6 +94,7 @@ const HotProducts = () => {
       {loading ? (
         <div className={styles.loader}>Loading...</div>
       ) : (
+        <div className={styles.hotProducts__items__container}>
         <div className={styles.hotProducts__items}>
           {data &&
             data.meals &&
@@ -109,6 +110,7 @@ const HotProducts = () => {
                   oldPrice={500}
                 />
               ))}
+        </div>
         </div>
       )}
     </section>

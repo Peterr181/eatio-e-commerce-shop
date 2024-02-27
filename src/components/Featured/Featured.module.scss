@@ -86,16 +86,40 @@
 }
 
 .featured__item {
-  // Your existing styles
-
   button {
-    // Your existing button styles
-
     &.added {
       background-color: orange; // Example color change when added
     }
 
-    // Transition for the animation effect
     transition: background-color 0.3s ease;
+  }
+}
+
+//responsvie design
+@media screen and (max-width: 1215px) {
+  .featured {
+    &__items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+
+      gap: 20px;
+    }
+
+    &__item {
+      background-color: #ebecfe;
+      padding: 20px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 130px;
+        height: 130px;
+      }
+    }
   }
 }

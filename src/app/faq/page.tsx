@@ -63,6 +63,7 @@ const faq = () => {
       <Breadcrumbs paths={[{ name: "Home", url: "/" }, { name: "FAQ" }]} />
       <MaxWidthWrapper>
         <section className={styling.faq}>
+          <h2>Frequently Asked Questions</h2>
           <Faq data={data} styles={styles} config={config} />
         </section>
       </MaxWidthWrapper>

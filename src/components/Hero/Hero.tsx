@@ -7,6 +7,7 @@ const Hero = () => {
   return (
     <header className={styles.header}>
       <div className={styles.header__text}>
+        <h2 className={styles.mobileLogo}>Meally</h2>
         <p className={styles.header__discount}>Save up 30% off</p>
         <h1 className={styles.header__heading}>
           Bengal Vegetable Farm Organic 100%

@@ -150,64 +150,73 @@ const Products = () => {
             <div className={styles.products__mainFilters}>
               <div className={styles.products__section__categories}>
                 <h3 className={styles.products__header}>All categories</h3>
-                <ul className={styles.products__categoryList}>
-                  <li key="All">
-                    <label className={styles.checkBox}>
-                      <input
-                        type="radio"
-                        name="category"
-                        value=""
-                        checked={selectedCategory === ""}
-                        onChange={() => setSelectedCategory("")}
-                        className={styles.checkbox}
-                      />
-                      All
-                    </label>
-                  </li>
-                  {dataCategories?.categories.map((category) => (
-                    <li key={category.strCategory}>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="radio"
-                          name="category"
-                          value={category.strCategory}
-                          checked={selectedCategory === category.strCategory}
-                          onChange={() =>
-                            setSelectedCategory(category.strCategory)
-                          }
-                          className={styles.checkbox}
-                        />
-                        {category.strCategory}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className={styles.products__section__countries}>
-                <h3 className={styles.products__header}>By country</h3>
-                <ul className={styles.products__countries}>
-                  {dataCountries?.meals.map((country) => (
-                    <li key={country.strArea}>
-                      <label className={styles.checkBox}>
-                        <input
-                          type="checkbox"
-                          name="country"
-                          value={country.strArea}
-                          checked={selectedCountries.includes(country.strArea)}
-                          onChange={() =>
-                            setSelectedCountries((prev) =>
-                              prev.includes(country.strArea)
-                                ? prev.filter((c) => c !== country.strArea)
-                                : [...prev, country.strArea]
-                            )
-                          }
-                          className={styles.checkbox}
-                        />
-                        {country.strArea}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
+                <div className={styles.products__categoriesLabels}>
+                  <div className={styles.products__categoriesCategory}>
+                    <ul className={styles.products__categoryList}>
+                      <li key="All">
+                        <label className={styles.checkBox}>
+                          <input
+                            type="radio"
+                            name="category"
+                            value=""
+                            checked={selectedCategory === ""}
+                            onChange={() => setSelectedCategory("")}
+                            className={styles.checkbox}
+                          />
+                          All
+                        </label>
+                      </li>
+                      {dataCategories?.categories.map((category) => (
+                        <li key={category.strCategory}>
+                          <label className={styles.checkBox}>
+                            <input
+                              type="radio"
+                              name="category"
+                              value={category.strCategory}
+                              checked={
+                                selectedCategory === category.strCategory
+                              }
+                              onChange={() =>
+                                setSelectedCategory(category.strCategory)
+                              }
+                              className={styles.checkbox}
+                            />
+                            {category.strCategory}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className={styles.products__section__countries}>
+                    <h3 className={styles.products__header}>By country</h3>
+                    <ul className={styles.products__countries}>
+                      {dataCountries?.meals.map((country) => (
+                        <li key={country.strArea}>
+                          <label className={styles.checkBox}>
+                            <input
+                              type="checkbox"
+                              name="country"
+                              value={country.strArea}
+                              checked={selectedCountries.includes(
+                                country.strArea
+                              )}
+                              onChange={() =>
+                                setSelectedCountries((prev) =>
+                                  prev.includes(country.strArea)
+                                    ? prev.filter((c) => c !== country.strArea)
+                                    : [...prev, country.strArea]
+                                )
+                              }
+                              className={styles.checkbox}
+                            />
+                            {country.strArea}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
 

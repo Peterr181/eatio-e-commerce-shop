@@ -40,3 +40,33 @@
     }
   }
 }
+
+// responsive deisgn
+
+@media screen and (max-width: 1323px) {
+  .testimonials {
+    &__items {
+      grid-template-columns: 1fr 1fr;
+    }
+    &__person {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 506px) {
+  .testimonials {
+    &__items {
+      grid-template-columns: 1fr;
+    }
+    &__person {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+  }
+}

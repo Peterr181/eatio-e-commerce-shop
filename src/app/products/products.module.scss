@@ -37,7 +37,8 @@
   &__countries {
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   &__section {
@@ -51,9 +52,6 @@
       margin-top: 10px;
 
       ul {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
       }
       li {
         background-color: #ebecfe;
@@ -144,4 +142,79 @@
 .pagination button.active {
   background-color: orange;
   color: #fff;
+}
+
+//responsive design
+
+@media screen and (max-width: 1000px) {
+  .products {
+    &__mainWrapper {
+    }
+    &__productsItems {
+      grid-template-columns: 1fr 1fr;
+      margin-left: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .products {
+    &__mainWrapper {
+      flex-direction: column;
+    }
+    &__productsItems {
+      grid-template-columns: 1fr 1fr;
+      margin-left: 0;
+    }
+    &__categoriesLabels {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    &__categoriesCategory {
+      margin-top: 13px;
+    }
+    &__countries {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  .pagination {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
+
+    button {
+      border: none;
+      border: 1px solid orange;
+      background-color: #fff;
+      color: black;
+      font-weight: 500;
+
+      padding: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 11px;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .products {
+    &__countries {
+      grid-template-columns: 1fr 1fr;
+    }
+    &__categoriesLabels {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 10px;
+    }
+    &__productsItems {
+      grid-template-columns: 1fr;
+      margin-left: 0;
+    }
+  }
 }
