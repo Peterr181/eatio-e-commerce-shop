@@ -6,6 +6,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import Rating from "@/components/Rating/Rating";
 import useFetch from "@/hooks/useFetch";
 import FeaturedItem from "@/components/Featured/FeaturedItem";
+import Link from "next/link";
 
 interface Meal {
   idMeal: string;

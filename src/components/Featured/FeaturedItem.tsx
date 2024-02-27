@@ -6,6 +6,7 @@ import styles from "./Featured.module.scss";
 import { useDispatch } from "react-redux";
 import { addToCart, updateCartItemQuantity } from "@/redux/CartSlice";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 interface FeaturedItemProps {
   id: string;
@@ -56,14 +57,16 @@ const FeaturedItem = React.memo(
 
     return (
       <div className={styles.featured__item}>
-        <Image
-          src={imageUrl}
-          alt="featured shop item"
-          width={230}
-          height={230}
-        />
-        <h3>{productName}</h3>
-
+        <Link href={`/products/${id}`} key={id}>
+          <Image
+            src={imageUrl}
+            alt="featured shop item"
+            width={230}
+            height={230}
+            className={styles.featured__item__img}
+          />
+          <h3>{productName}</h3>
+        </Link>
         <div className={styles.featured__items__price}>
           <span>${newPrice}</span>
           {oldPrice && (
