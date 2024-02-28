@@ -100,5 +100,5 @@ const FeaturedItem = ({
     </div>
   );
 };
-
+FeaturedItem.displayName = "FeaturedItem";
 export default FeaturedItem;
