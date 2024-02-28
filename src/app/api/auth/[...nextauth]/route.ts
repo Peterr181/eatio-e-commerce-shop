@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import User from "@/models/userModel";
 import { connectToDb } from "@/lib/connect";
 
-export const authOptions: any = {
+const authOptions: any = {
   secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
@@ -67,5 +67,5 @@ export const authOptions: any = {
   },
 };
 
-export const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
