@@ -5,6 +5,7 @@ import { addToCart, updateCartItemQuantity } from "@/redux/CartSlice";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper/MaxWidthWrapper";
 import styles from "./productDetails.module.scss";
+import Image from "next/image";
 
 interface PageProps {
   params: {
@@ -26,7 +27,7 @@ const ProductDetails = ({ params }: PageProps) => {
         setProductDetails(data.meals[0]);
       })
       .catch((error) => {});
-  }, []);
+  }, [productId]);
 
   const handleAddToCart = () => {
     const existingItem = cartItems.find((item: any) => item.id === productId);
@@ -75,9 +76,11 @@ const ProductDetails = ({ params }: PageProps) => {
       <MaxWidthWrapper>
         <div className={styles.productDetails}>
           <div className={styles.productDetails__image}>
-            <img
+            <Image
               src={productDetails.strMealThumb}
               alt={productDetails.strMeal}
+              width={600}
+              height={800}
             />
           </div>
           <div className={styles.productDetails__text}>

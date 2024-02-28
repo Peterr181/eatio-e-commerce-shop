@@ -5,6 +5,7 @@ import styles from "./ShoppingCart.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, updateCartItemQuantity } from "@/redux/CartSlice";
 import Link from "next/link";
+import Image from "next/image";
 
 const ShoppingCart = () => {
   const cartItems = useSelector((state: any) => state.cart.items);
@@ -75,7 +76,12 @@ const ShoppingCart = () => {
             {cartItems.map((item: any) => (
               <tr key={item.id} className={styles.tableRow}>
                 <td className={styles.tableImage}>
-                  <img src={item.imageUrl} alt={item.name} />
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.name}
+                    width={80}
+                    height={80}
+                  />
                 </td>
                 <td>{item.productName}</td>
                 <td className={styles.tableMobile}>${item.price}</td>

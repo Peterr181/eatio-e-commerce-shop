@@ -35,7 +35,7 @@ const Categories = () => {
   useEffect(() => {
     const interval = setInterval(handleMoreClick, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [handleMoreClick]);
 
   return (
     <section className={styles.categories}>
