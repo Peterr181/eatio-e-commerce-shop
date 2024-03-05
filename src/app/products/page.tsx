@@ -176,6 +176,19 @@ const Products = () => {
                   <div className={styles.products__section__countries}>
                     <h3 className={styles.products__header}>By country</h3>
                     <ul className={styles.products__countries}>
+                      <li key="All">
+                        <label className={styles.checkBox}>
+                          <input
+                            type="radio"
+                            name="country"
+                            value=""
+                            checked={selectedCountry === ""}
+                            onChange={() => setSelectedCountry("")}
+                            className={styles.checkbox}
+                          />
+                          All
+                        </label>
+                      </li>
                       {dataCountries?.meals.map((country) => (
                         <li key={country.strArea}>
                           <label className={styles.checkBox}>
