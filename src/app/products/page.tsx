@@ -51,7 +51,7 @@ const Products = () => {
 
   const paths = [{ name: "Home", url: "/" }, { name: "Products" }];
 
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [filteredMeals, setFilteredMeals] = useState<Meal[]>([]);
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
@@ -92,47 +92,31 @@ const Products = () => {
         const data = await response.json();
         let filteredMealsByCategory = data.meals || [];
 
-        // If countries are selected, filter by country
-        if (selectedCountries.length > 0) {
-          const countryPromises = selectedCountries.map(async (country) => {
-            const response = await fetch(
-              `https://www.themealdb.com/api/json/v1/1/filter.php?a=${country}`
-            );
-            const data = await response.json();
-            return data.meals || [];
-          });
-
-          Promise.all(countryPromises).then((allMeals) => {
-            const mergedMeals = allMeals.flat();
-
-            const filteredMeals = filteredMealsByCategory.filter((meal: any) =>
-              mergedMeals.some((m) => m.idMeal === meal.idMeal)
-            );
-            setFilteredMeals(filteredMeals);
-          });
-        } else {
-          setFilteredMeals(filteredMealsByCategory);
-        }
-      } else if (selectedCountries.length > 0) {
-        const countryPromises = selectedCountries.map(async (country) => {
+        // If a country is selected, filter by country
+        if (selectedCountry) {
           const response = await fetch(
-            `https://www.themealdb.com/api/json/v1/1/filter.php?a=${country}`
+            `https://www.themealdb.com/api/json/v1/1/filter.php?a=${selectedCountry}`
           );
           const data = await response.json();
-          return data.meals || [];
-        });
+          filteredMealsByCategory = filteredMealsByCategory.filter(
+            (meal: any) => data.meals.some((m: any) => m.idMeal === meal.idMeal)
+          );
+        }
 
-        Promise.all(countryPromises).then((allMeals) => {
-          const mergedMeals = allMeals.flat();
-          setFilteredMeals(mergedMeals);
-        });
+        setFilteredMeals(filteredMealsByCategory);
+      } else if (selectedCountry) {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/filter.php?a=${selectedCountry}`
+        );
+        const data = await response.json();
+        setFilteredMeals(data.meals || []);
       } else {
         fetchAllMeals();
       }
     };
 
     fetchFilteredMeals();
-  }, [selectedCategory, selectedCountries]);
+  }, [selectedCategory, selectedCountry]);
   const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -196,18 +180,12 @@ const Products = () => {
                         <li key={country.strArea}>
                           <label className={styles.checkBox}>
                             <input
-                              type="checkbox"
+                              type="radio"
                               name="country"
                               value={country.strArea}
-                              checked={selectedCountries.includes(
-                                country.strArea
-                              )}
+                              checked={selectedCountry === country.strArea}
                               onChange={() =>
-                                setSelectedCountries((prev) =>
-                                  prev.includes(country.strArea)
-                                    ? prev.filter((c) => c !== country.strArea)
-                                    : [...prev, country.strArea]
-                                )
+                                setSelectedCountry(country.strArea)
                               }
                               className={styles.checkbox}
                             />

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./checkout.module.scss";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Link from "next/link";
@@ -25,6 +25,8 @@ const CheckoutForm: React.FC = () => {
     postalCode: "",
   });
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -36,6 +38,14 @@ const CheckoutForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(clearCart());
+    setShowConfirmation(true);
+    setTimeout(() => {
+      setShowConfirmation(false);
+      // Redirect to home page after 2 seconds
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
+    }, 1500);
   };
 
   return (
@@ -105,6 +115,11 @@ const CheckoutForm: React.FC = () => {
           </button>
         </Link>
       </form>
+      {showConfirmation && (
+        <div className={styles.confirmationBox}>
+          <p>You have bought the items.</p>
+        </div>
+      )}
     </>
   );
 };
